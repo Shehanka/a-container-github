@@ -1,4 +1,4 @@
-name: ECR Build and Push
+name: GitHub Registry Build and Push
 on:
   push:
     branches:
@@ -12,25 +12,24 @@ jobs:
     env:
       HASH: $(git rev-parse --short "$GITHUB_SHA")
       BRANCH: main
-      SERVICE_NAME: a-container-ecr
+      SERVICE_NAME: a-container-github
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2
-
       # Build docker image
       - name: Image Build
         run: |-
-          docker build -t 781797606691.dkr.ecr.us-east-1.amazonaws.com/chamod-demo/$SERVICE_NAME:latest .
+          docker build -t ghcr.io/Shehanka/$SERVICE_NAME:latest .
 
-      # Push image to Azure Container Registry
       - name: Image Push
-        run: |-
-          docker push 781797606691.dkr.ecr.us-east-1.amazonaws.com/chamod-demo/$SERVICE_NAME:latest
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.TOKEN }}
+          registry: docker.pkg.github.com
+          repository: my-org/my-repo/my-image
+          tag_with_ref: true
+        # run: |-
+        #   docker push ghcr.io/Shehanka/$SERVICE_NAME:latest
