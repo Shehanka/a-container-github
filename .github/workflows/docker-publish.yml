@@ -21,7 +21,7 @@ jobs:
       # Build docker image
       - name: Image Build
         run: |-
-          docker build -t ghcr.io/Shehanka/$SERVICE_NAME:latest .
+          docker build -t ghcr.io/shehanka/$SERVICE_NAME:latest .
 
       - name: Image Push
         uses: docker/build-push-action@v1
@@ -29,7 +29,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.TOKEN }}
           registry: docker.pkg.github.com
-          repository: my-org/my-repo/my-image
+          repository: Shehanka/a-container-github/ghcr.io/shehanka/$SERVICE_NAME:latest
           tag_with_ref: true
         # run: |-
         #   docker push ghcr.io/Shehanka/$SERVICE_NAME:latest
