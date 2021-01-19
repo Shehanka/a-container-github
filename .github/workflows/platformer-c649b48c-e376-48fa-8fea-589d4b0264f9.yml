@@ -8,7 +8,7 @@ jobs:
     runs-on:
       - ubuntu-latest
     env:
-      SERVICE_NAME: ghcr.io/shehanka/a-container-github.
+      SERVICE_NAME: ghcr.io/shehanka/a-container-github
     steps:
       - uses: actions/checkout@v2
       - name: Set Version
